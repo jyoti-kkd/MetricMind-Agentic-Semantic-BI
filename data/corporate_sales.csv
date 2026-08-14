@@ -1,0 +1,121 @@
+order_id,order_date,region,country,product,category,quantity,revenue,cost
+ORD0001,2026-01-14,North America,USA,Laptop,Electronics,19,21850,14522.43
+ORD0002,2026-01-28,North America,USA,Headset,Accessories,29,1566,670.79
+ORD0003,2026-03-11,Europe,Germany,Headset,Accessories,14,1974,1188.28
+ORD0004,2026-01-21,Asia,Singapore,Mouse,Accessories,19,1444,929.08
+ORD0005,2026-02-13,North America,Canada,Keyboard,Accessories,19,1501,756.25
+ORD0006,2026-03-19,Europe,Germany,Mouse,Accessories,8,376,239.62
+ORD0007,2026-02-18,Asia,India,Tablet,Electronics,31,22444,13633.87
+ORD0008,2026-01-09,Europe,UK,Tablet,Electronics,25,18625,11590.4
+ORD0009,2026-02-18,Europe,France,Keyboard,Accessories,7,623,415.3
+ORD0010,2026-01-27,Asia,UAE,Tablet,Electronics,25,13325,8813.69
+ORD0011,2026-03-10,North America,Canada,Tablet,Electronics,6,4566,3286.13
+ORD0012,2026-03-23,North America,USA,Monitor,Electronics,31,16864,10322.25
+ORD0013,2026-01-08,North America,USA,Tablet,Electronics,22,19382,14517.68
+ORD0014,2026-03-14,Europe,Germany,Keyboard,Accessories,27,2538,1184.1
+ORD0015,2026-03-24,North America,Canada,Monitor,Electronics,33,18216,13725.34
+ORD0016,2026-03-10,Asia,Singapore,Keyboard,Accessories,10,910,578.98
+ORD0017,2026-01-18,Asia,UAE,Headset,Accessories,27,2592,1247.81
+ORD0018,2026-01-21,North America,Canada,Laptop,Electronics,5,5060,3291.88
+ORD0019,2026-03-01,North America,Canada,Headset,Accessories,6,594,312.95
+ORD0020,2026-03-29,North America,Canada,Headset,Accessories,2,274,170.37
+ORD0021,2026-01-21,North America,Canada,Tablet,Electronics,23,11661,7516.33
+ORD0022,2026-03-06,Asia,India,Tablet,Electronics,18,12708,9500.9
+ORD0023,2026-02-17,Europe,UK,Tablet,Electronics,34,25874,16139.18
+ORD0024,2026-02-16,Europe,Germany,Headset,Accessories,22,2464,1048.32
+ORD0025,2026-01-11,Asia,Singapore,Laptop,Electronics,17,25160,20364.25
+ORD0026,2026-03-12,North America,Canada,Laptop,Electronics,10,10310,7752.61
+ORD0027,2026-03-30,Europe,UK,Headset,Accessories,29,2233,1518.65
+ORD0028,2026-02-27,Europe,UK,Mouse,Accessories,25,1325,863.76
+ORD0029,2026-03-12,Europe,France,Monitor,Electronics,6,3138,1741.08
+ORD0030,2026-01-05,Europe,France,Laptop,Electronics,6,5760,3834.94
+ORD0031,2026-01-28,Asia,India,Headset,Accessories,17,1445,877.57
+ORD0032,2026-02-22,North America,USA,Tablet,Electronics,32,18368,13824.06
+ORD0033,2026-03-01,Europe,Germany,Laptop,Electronics,29,36598,25791.19
+ORD0034,2026-02-13,North America,USA,Tablet,Electronics,8,3848,2572.68
+ORD0035,2026-02-24,Europe,France,Monitor,Electronics,14,8736,5706.19
+ORD0036,2026-02-26,Europe,UK,Mouse,Accessories,17,1360,895.58
+ORD0037,2026-01-31,North America,USA,Laptop,Electronics,2,1990,1602.49
+ORD0038,2026-01-08,Europe,Netherlands,Mouse,Accessories,32,1216,780.8
+ORD0039,2026-02-28,Europe,Netherlands,Laptop,Electronics,26,30446,24518.27
+ORD0040,2026-01-28,Asia,UAE,Tablet,Electronics,33,17457,10854.37
+ORD0041,2026-03-03,Europe,Germany,Tablet,Electronics,22,10538,6228.29
+ORD0042,2026-01-09,North America,USA,Laptop,Electronics,34,33388,26385.48
+ORD0043,2026-03-14,North America,USA,Tablet,Electronics,17,11152,6762.29
+ORD0044,2026-03-14,Europe,Germany,Headset,Accessories,7,721,435.53
+ORD0045,2026-02-20,North America,Canada,Keyboard,Accessories,15,1500,764.51
+ORD0046,2026-01-02,Europe,UK,Mouse,Accessories,22,1606,1063.18
+ORD0047,2026-02-14,Asia,India,Laptop,Electronics,15,21270,14315.56
+ORD0048,2026-03-11,Europe,France,Keyboard,Accessories,20,1600,895.27
+ORD0049,2026-03-12,North America,Canada,Headset,Accessories,35,1785,1083.5
+ORD0050,2026-03-12,Asia,India,Monitor,Electronics,18,7362,5555.61
+ORD0051,2026-03-23,Europe,UK,Keyboard,Accessories,15,1545,773.89
+ORD0052,2026-02-05,Asia,UAE,Keyboard,Accessories,5,355,216.04
+ORD0053,2026-02-26,Europe,Germany,Keyboard,Accessories,10,930,456.07
+ORD0054,2026-03-30,North America,Canada,Headset,Accessories,2,128,56.46
+ORD0055,2026-02-09,Europe,Germany,Keyboard,Accessories,11,1265,609.55
+ORD0056,2026-02-15,Asia,India,Keyboard,Accessories,15,1365,841.84
+ORD0057,2026-01-23,North America,Canada,Headset,Accessories,11,880,582.64
+ORD0058,2026-02-01,Asia,India,Monitor,Electronics,23,12880,9460.54
+ORD0059,2026-03-02,Asia,Singapore,Tablet,Electronics,8,5160,3982.88
+ORD0060,2026-01-30,Europe,France,Mouse,Accessories,24,1056,665.02
+ORD0061,2026-01-09,Europe,Germany,Tablet,Electronics,14,9156,5971.7
+ORD0062,2026-03-10,Asia,Japan,Tablet,Electronics,34,22236,16221.03
+ORD0063,2026-02-03,Asia,India,Laptop,Electronics,18,19476,14336.63
+ORD0064,2026-02-10,Europe,Germany,Headset,Accessories,29,2726,1701.0
+ORD0065,2026-02-25,Asia,India,Mouse,Accessories,14,574,236.73
+ORD0066,2026-02-12,Europe,France,Keyboard,Accessories,29,1972,1355.2
+ORD0067,2026-03-06,North America,Canada,Tablet,Electronics,9,7362,5727.71
+ORD0068,2026-01-25,Asia,UAE,Keyboard,Accessories,27,2619,1541.55
+ORD0069,2026-02-21,Asia,UAE,Tablet,Electronics,13,9945,7013.25
+ORD0070,2026-03-16,North America,USA,Keyboard,Accessories,20,1720,958.85
+ORD0071,2026-03-07,North America,Canada,Mouse,Accessories,30,1590,936.79
+ORD0072,2026-03-23,Asia,Singapore,Tablet,Electronics,7,4165,2888.01
+ORD0073,2026-01-26,North America,Canada,Laptop,Electronics,17,20689,13756.7
+ORD0074,2026-01-10,Europe,Germany,Laptop,Electronics,17,23562,17489.01
+ORD0075,2026-03-05,Asia,UAE,Tablet,Electronics,14,11438,8386.32
+ORD0076,2026-01-29,Asia,Singapore,Monitor,Electronics,2,808,589.06
+ORD0077,2026-03-01,Europe,Netherlands,Laptop,Electronics,17,17408,12382.18
+ORD0078,2026-03-12,North America,Canada,Mouse,Accessories,34,1768,1118.36
+ORD0079,2026-02-01,Asia,Singapore,Tablet,Electronics,32,21760,13861.6
+ORD0080,2026-02-26,North America,Canada,Headset,Accessories,33,4290,2089.18
+ORD0081,2026-03-11,Europe,UK,Monitor,Electronics,19,9899,6172.36
+ORD0082,2026-01-28,Europe,France,Monitor,Electronics,16,8736,6199.14
+ORD0083,2026-01-08,Europe,Netherlands,Mouse,Accessories,23,1357,719.83
+ORD0084,2026-03-15,Europe,Netherlands,Mouse,Accessories,3,237,153.24
+ORD0085,2026-02-23,Asia,UAE,Laptop,Electronics,24,28920,22288.5
+ORD0086,2026-01-04,North America,USA,Mouse,Accessories,16,672,350.81
+ORD0087,2026-03-01,Asia,Japan,Tablet,Electronics,27,22140,13645.1
+ORD0088,2026-01-18,Europe,Germany,Mouse,Accessories,3,90,52.2
+ORD0089,2026-02-28,Asia,Singapore,Laptop,Electronics,18,23184,15891.95
+ORD0090,2026-02-23,Asia,Japan,Mouse,Accessories,19,1387,924.21
+ORD0091,2026-02-14,Asia,India,Mouse,Accessories,3,216,119.02
+ORD0092,2026-02-01,Europe,Germany,Tablet,Electronics,4,3344,1962.35
+ORD0093,2026-03-27,Europe,Germany,Headset,Accessories,11,880,400.7
+ORD0094,2026-03-19,Europe,France,Mouse,Accessories,18,1332,670.38
+ORD0095,2026-02-09,North America,USA,Monitor,Electronics,21,8505,5809.74
+ORD0096,2026-03-22,North America,Canada,Mouse,Accessories,14,406,229.71
+ORD0097,2026-01-16,Europe,Germany,Tablet,Electronics,21,18585,13577.03
+ORD0098,2026-03-24,North America,USA,Keyboard,Accessories,29,3103,1449.84
+ORD0099,2026-02-16,Asia,India,Mouse,Accessories,33,1023,533.38
+ORD0100,2026-03-08,North America,Canada,Tablet,Electronics,11,7392,4573.8
+ORD0101,2026-03-17,North America,Canada,Headset,Accessories,32,3488,1890.36
+ORD0102,2026-02-01,Asia,Japan,Monitor,Electronics,7,3444,2592.56
+ORD0103,2026-01-24,Asia,UAE,Keyboard,Accessories,3,369,244.55
+ORD0104,2026-03-18,Asia,Singapore,Keyboard,Accessories,18,1854,963.92
+ORD0105,2026-01-11,North America,Canada,Headset,Accessories,2,232,159.03
+ORD0106,2026-03-04,Europe,Netherlands,Mouse,Accessories,17,1173,625.57
+ORD0107,2026-02-01,Asia,India,Laptop,Electronics,20,22520,15783.82
+ORD0108,2026-03-12,Asia,Japan,Mouse,Accessories,35,1645,853.99
+ORD0109,2026-01-30,Asia,Japan,Tablet,Electronics,31,18228,11801.85
+ORD0110,2026-03-30,Europe,France,Keyboard,Accessories,9,1152,792.25
+ORD0111,2026-03-09,Europe,France,Monitor,Electronics,32,15712,11260.08
+ORD0112,2026-01-23,North America,Canada,Laptop,Electronics,14,16842,11208.29
+ORD0113,2026-01-07,Asia,India,Tablet,Electronics,10,5900,3481.08
+ORD0114,2026-03-04,North America,Canada,Tablet,Electronics,10,7760,5983.44
+ORD0115,2026-02-13,Europe,Germany,Headset,Accessories,20,2200,1218.89
+ORD0116,2026-02-21,Europe,Germany,Keyboard,Accessories,32,2368,1552.29
+ORD0117,2026-03-14,Asia,India,Headset,Accessories,5,345,159.31
+ORD0118,2026-03-19,Asia,India,Monitor,Electronics,9,5715,4148.07
+ORD0119,2026-02-08,North America,USA,Headset,Accessories,26,2782,1876.13
+ORD0120,2026-01-13,North America,Canada,Keyboard,Accessories,5,690,476.12
