@@ -1,38 +1,52 @@
 # MetricMind-Agentic-Semantic-BI
 
-An agentic semantic Business Intelligence platform for transforming corporate sales data into reliable analytical insights.
+An agentic semantic Business Intelligence platform designed to transform corporate sales data into reliable, structured, and actionable business insights.
 
 ## Project Overview
 
-MetricMind is a data analytics and semantic BI project that uses Snowflake and dbt to transform corporate sales data into structured analytical models for Business Intelligence.
+MetricMind integrates data warehousing, data transformation, and business intelligence to provide a scalable analytics foundation for corporate sales data.
 
-## Architecture
+The project uses Snowflake for data storage and dbt for data transformation and analytical modeling.
+
+## Data Architecture
 
 Corporate Sales Dataset
 ↓
-Snowflake RAW
+Snowflake RAW Layer
 ↓
-dbt STAGING
+dbt STAGING Layer
 ↓
-dbt ANALYTICS
+dbt ANALYTICS Layer
 ↓
-BI / Semantic Layer
+Semantic / BI Layer
 ↓
 Business Insights
 
-## Week 1 – Data & Analytics Foundation
+## Data Layers
 
-- Created Corporate Sales dataset
-- Set up Snowflake data warehouse
-- Created RAW, STAGING, and ANALYTICS schemas
-- Loaded corporate sales data into RAW
-- Created dbt project and connected it with Snowflake
-- Created staging model
-- Created Revenue Analysis model
-- Created Cost Analysis model
-- Created Corporate Sales Summary model
-- Added dbt data quality tests
-- Successfully passed 4/4 dbt tests
+### RAW
+Contains the original corporate sales data loaded into Snowflake.
+
+### STAGING
+Contains cleaned and standardized data prepared using dbt.
+
+### ANALYTICS
+Contains transformed models for revenue analysis, cost analysis, and corporate sales summaries.
+
+## Key Analytical Models
+
+- Revenue Analysis
+- Cost Analysis
+- Corporate Sales Summary
+
+## Data Quality
+
+dbt tests are used to validate important source columns including:
+
+- DATE
+- COUNTRY
+- REVENUE
+- COST
 
 ## Technologies
 
@@ -43,8 +57,16 @@ Business Insights
 - GitHub
 - Power BI
 
-## Project Status
+## Project Structure
 
-**Week 1 – Completed ✅**
-
-Next Phase: Semantic Layer and Business Intelligence development.
+```text
+MetricMind-Agentic-Semantic-BI/
+│
+├── data/
+├── docs/
+├── models/
+│   ├── staging/
+│   └── analytics/
+├── dbt_project.yml
+├── README.md
+└── README_dbt.md
