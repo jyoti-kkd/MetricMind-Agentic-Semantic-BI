@@ -1,0 +1,8 @@
+version: 2
+
+sources:
+  - name: raw
+    database: METRICMIND_DB
+    schema: RAW
+    tables:
+      - name: corporate_sales_raw
