@@ -1,0 +1,24 @@
+version: 2
+
+sources:
+  - name: raw
+    database: METRICMIND_DB
+    schema: RAW
+    tables:
+      - name: CORPORATE_SALES
+        columns:
+          - name: DATE
+            tests:
+              - not_null
+
+          - name: COUNTRY
+            tests:
+              - not_null
+
+          - name: REVENUE
+            tests:
+              - not_null
+
+          - name: COST
+            tests:
+              - not_null

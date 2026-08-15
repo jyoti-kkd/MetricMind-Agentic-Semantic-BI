@@ -1,0 +1,17 @@
+{{ config(
+    materialized='table'
+) }}
+
+SELECT
+    COUNTRY,
+    REGION,
+    PRODUCT,
+    SUM(COST) AS TOTAL_COST,
+    SUM(SHIPPING_COST) AS TOTAL_SHIPPING_COST,
+    SUM(MATERIAL_COST) AS TOTAL_MATERIAL_COST,
+    SUM(COST + SHIPPING_COST + MATERIAL_COST) AS TOTAL_EXPENSE
+FROM {{ ref('stg_corporate_sales') }}
+GROUP BY
+    COUNTRY,
+    REGION,
+    PRODUCT

@@ -1,0 +1,26 @@
+{{ config(
+    materialized='table'
+) }}
+
+SELECT
+    COUNTRY,
+    REGION,
+    PRODUCT,
+    SUM(REVENUE) AS TOTAL_REVENUE,
+    SUM(COST) AS TOTAL_COST,
+    SUM(SHIPPING_COST) AS TOTAL_SHIPPING_COST,
+    SUM(MATERIAL_COST) AS TOTAL_MATERIAL_COST,
+
+    SUM(REVENUE - COST) AS TOTAL_PROFIT,
+
+    ROUND(
+        (SUM(REVENUE - COST) / NULLIF(SUM(REVENUE), 0)) * 100,
+        2
+    ) AS PROFIT_MARGIN_PERCENT
+
+FROM {{ ref('stg_corporate_sales') }}
+
+GROUP BY
+    COUNTRY,
+    REGION,
+    PRODUCT
