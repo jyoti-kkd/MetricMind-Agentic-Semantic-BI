@@ -1,0 +1,13 @@
+{
+  "name": "cube_app",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "cubejs-server"
+  },
+  "template": "docker",
+  "templateVersion": "1.7.20",
+  "devDependencies": {
+    "@cubejs-backend/server": "^1.7.20"
+  }
+}
