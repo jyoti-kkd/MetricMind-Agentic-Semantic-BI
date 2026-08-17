@@ -8,6 +8,10 @@
   "template": "docker",
   "templateVersion": "1.7.20",
   "devDependencies": {
-    "@cubejs-backend/server": "^1.7.20"
+    "@cubejs-backend/server": "^1.7.20",
+    "@cubejs-backend/snowflake-driver": "^1.7.20"
+  },
+  "dependencies": {
+    "jsonwebtoken": "^9.0.3"
   }
 }

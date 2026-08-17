@@ -1,5 +1,3 @@
-const Cube = require("@cubejs-backend/server");
-
 module.exports = {
   driverFactory: () => ({
     type: "snowflake",
