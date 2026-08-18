@@ -26,6 +26,12 @@ cube(`CorporateSales`, {
       type: `sum`
     },
 
+    margin: {
+      sql: `${totalProfit} / NULLIF(${totalRevenue}, 0)`,
+      type: `number`,
+      format: `percent`
+    },
+
     averageRevenue: {
       sql: `REVENUE`,
       type: `avg`
