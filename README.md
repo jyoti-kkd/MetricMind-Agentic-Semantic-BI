@@ -184,44 +184,48 @@ dbt tests are used to validate important source columns including:
 - GitHub
 - Power BI
 
-## Project Structure
-
+##Project Structure
 MetricMind-Agentic-Semantic-BI/
-|
+│
 ├── data/
+│
 ├── docs/
+│
 ├── models/
 │   ├── staging/
+│   │   ├── sources.yml
+│   │   └── stg_corporate_sales.sql
+│   │
 │   └── analytics/
+│       ├── corporate_sales_summary.sql
+│       ├── cost_analysis.sql
+│       └── revenue_analysis.sql
+│
+├── cube/
+│   └── cube.js
+│
 ├── cube_app/
 │   ├── cube.js
 │   ├── package.json
-│   └── schema/
+│   └── package-lock.json
+│
 ├── agent/
 │   ├── index.js
 │   ├── package.json
 │   └── package-lock.json
+│
 ├── dbt_project.yml
 ├── README.md
 └── README_dbt.md
-
 ## Current Project Status
-
-- [x] Corporate sales dataset
-- [x] Snowflake data warehouse
-- [x] Snowflake RAW layer
-- [x] dbt project setup
-- [x] dbt staging models
-- [x] dbt analytical models
-- [x] Data quality tests
-- [x] Cube.js semantic layer
-- [x] Governed business metrics
-- [x] Agentic query integration
-- [x] Cube JWT authentication
-- [x] Agent-to-Cube integration
-- [x] Revenue by country tested
-- [x] Revenue by product tested
-- [x] Revenue by region tested
+- Snowflake data warehouse configured
+- Corporate sales data loaded into RAW layer
+- dbt staging models completed
+- dbt analytics models completed
+- Cube.js semantic layer configured
+- Revenue, cost, profit, and margin metrics defined
+- Agentic Cube query integration completed
+- Natural-language business question workflow tested
 
 ## Project Objective
 
