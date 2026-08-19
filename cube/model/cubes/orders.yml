@@ -18,6 +18,14 @@ cubes:
         sql: COST
         type: sum
 
+      - name: total_profit
+        sql: REVENUE - COST
+        type: sum
+
+      - name: profit_margin
+        sql: (REVENUE - COST) / NULLIF(REVENUE, 0)
+        type: number
+
     dimensions:
       - name: region
         sql: REGION
