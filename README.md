@@ -186,11 +186,11 @@ dbt tests are used to validate important source columns including:
 
 ## Project Structure
 
+```text
 MetricMind-Agentic-Semantic-BI/
 │
 ├── data/
 ├── docs/
-│
 ├── models/
 │   ├── staging/
 │   │   ├── sources.yml
@@ -216,10 +216,19 @@ MetricMind-Agentic-Semantic-BI/
 │
 ├── dbt_project.yml
 ├── README.md
-└── README_dbt.md- Natural-language business question workflow tested
+└── README_dbt.md
+```
+
+## Current Project Status
+- Snowflake data warehouse configured
+- Corporate sales data loaded into RAW layer
+- dbt staging models completed
+- dbt analytics models completed
+- Cube.js semantic layer configured
+- Revenue, cost, profit, and margin metrics defined
+- Agentic Cube query integration completed
+- Natural-language business question workflow tested
 
 ## Project Objective
 
 MetricMind aims to provide a reliable Agentic BI system where users can ask business questions in natural language while the underlying metrics and data access remain governed by a semantic layer.
-
-This approach helps reduce incorrect metric definitions, uncontrolled SQL generation, and inconsistent business calculations.
