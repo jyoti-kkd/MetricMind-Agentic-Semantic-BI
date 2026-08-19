@@ -184,11 +184,11 @@ dbt tests are used to validate important source columns including:
 - GitHub
 - Power BI
 
-##Project Structure
+## Project Structure
+
 MetricMind-Agentic-Semantic-BI/
 │
 ├── data/
-│
 ├── docs/
 │
 ├── models/
@@ -216,16 +216,7 @@ MetricMind-Agentic-Semantic-BI/
 │
 ├── dbt_project.yml
 ├── README.md
-└── README_dbt.md
-## Current Project Status
-- Snowflake data warehouse configured
-- Corporate sales data loaded into RAW layer
-- dbt staging models completed
-- dbt analytics models completed
-- Cube.js semantic layer configured
-- Revenue, cost, profit, and margin metrics defined
-- Agentic Cube query integration completed
-- Natural-language business question workflow tested
+└── README_dbt.md- Natural-language business question workflow tested
 
 ## Project Objective
 
