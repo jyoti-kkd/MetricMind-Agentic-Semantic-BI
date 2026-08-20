@@ -7,5 +7,8 @@ module.exports = {
     database: process.env.CUBEJS_DB_NAME,
     schema: process.env.CUBEJS_DB_SCHEMA,
     warehouse: process.env.CUBEJS_DB_WAREHOUSE
-  })
+  }),
+
+  cacheAndQueueDriver: "memory"
 };
+
