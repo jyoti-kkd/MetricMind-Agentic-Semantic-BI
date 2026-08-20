@@ -21,6 +21,11 @@ cube(`CorporateSales`, {
       type: `sum`
     },
 
+    totalMaterialCost: {
+      sql: `MATERIAL_COST`,
+      type: `sum`
+    },
+
     totalProfit: {
       sql: `REVENUE - COST - SHIPPING_COST`,
       type: `sum`
