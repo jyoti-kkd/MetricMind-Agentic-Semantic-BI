@@ -23,10 +23,18 @@ cubes:
         type: sum
 
       - name: profit_margin
-        sql: (REVENUE - COST) / NULLIF(REVENUE, 0)
+        sql: SUM(REVENUE - COST) / NULLIF(SUM(REVENUE), 0)
         type: number
-
+        
     dimensions:
       - name: region
         sql: REGION
         type: string
+
+      - name: country
+        sql: COUNTRY
+        type: string
+
+      - name: order_date
+        sql: ORDER_DATE
+        type: time
