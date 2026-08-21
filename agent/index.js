@@ -338,6 +338,72 @@ function explainEuropeanMargin(results) {
 
 
 // --------------------------------------------------
+// Product Profit Ranking Analysis
+// --------------------------------------------------
+
+async function analyzeProductProfitRanking(token) {
+  console.log("\nStarting product profit ranking analysis...");
+
+  const query = {
+    measures: [
+      "CorporateSales.totalProfit"
+    ],
+    dimensions: [
+      "CorporateSales.product"
+    ]
+  };
+
+  console.log("\nGoverned Cube query:");
+  console.log(JSON.stringify(query, null, 2));
+
+  const result = await cubeQuery(token, query);
+
+  console.log("\nRaw Cube result:");
+  console.log(JSON.stringify(result.data, null, 2));
+
+  const rows = result.data.map((row) => ({
+    product: row["CorporateSales.product"],
+    profit: Number(
+      row["CorporateSales.totalProfit"] || 0
+    )
+  }));
+
+  rows.sort((a, b) => b.profit - a.profit);
+
+  const highest = rows[0];
+
+  console.log("\n----------------------------------------");
+  console.log("MetricMind Product Profit Ranking");
+  console.log("----------------------------------------");
+
+  if (!highest) {
+    console.log("No product profit data was returned.");
+    return;
+  }
+
+  console.log(
+    `Highest Profit Product: ${highest.product}`
+  );
+
+  console.log(
+    `Profit: ${highest.profit.toFixed(2)}`
+  );
+
+  console.log("\nProduct Profit Ranking:");
+
+  rows.forEach((row, index) => {
+    console.log(
+      `${index + 1}. ${row.product} - ${row.profit.toFixed(2)}`
+    );
+  });
+
+  console.log(
+    "\nThe ranking is based entirely on the governed Cube semantic metric CorporateSales.totalProfit."
+  );
+}
+
+
+// --------------------------------------------------
 // Main Agent
 // --------------------------------------------------
 
@@ -354,6 +420,20 @@ async function main() {
   console.log("\nCube JWT generated.");
 
   const text = question.toLowerCase();
+
+  // Product profit ranking
+  if (
+    text.includes("product") &&
+    text.includes("profit") &&
+    (
+      text.includes("highest") ||
+      text.includes("top") ||
+      text.includes("best")
+    )
+  ) {
+    await analyzeProductProfitRanking(token);
+    return;
+  }
 
   // Multi-step European margin analysis
   if (
