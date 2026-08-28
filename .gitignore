@@ -1,3 +1,5 @@
 cube/.env
 cube/node_modules/
 logs/
+__pycache__/
+*.pyc

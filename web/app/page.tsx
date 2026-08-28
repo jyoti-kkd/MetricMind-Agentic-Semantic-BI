@@ -29,8 +29,25 @@ export default function Home() {
         throw new Error("Backend request failed");
       }
 
-      const data = await response.json();
-      setAnswer(data.answer);
+      if (!response.body) {
+        throw new Error("Streaming response not available");
+      }
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+
+      let result = "";
+
+      while (true) {
+        const { value, done } = await reader.read();
+
+        if (done) break;
+
+        const chunk = decoder.decode(value, { stream: true });
+
+        result += chunk;
+        setAnswer(result);
+      }
     } catch (error) {
       console.error(error);
       setAnswer("Unable to connect to the MetricMind backend.");
@@ -42,24 +59,31 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-slate-950 text-white">
       <div className="mx-auto flex min-h-screen max-w-6xl flex-col">
+
         <header className="border-b border-slate-800 px-6 py-5">
-          <h1 className="text-2xl font-bold">MetricMind</h1>
+          <h1 className="text-2xl font-bold">
+            MetricMind
+          </h1>
+
           <p className="mt-1 text-sm text-slate-400">
             Agentic Semantic BI Engine
           </p>
         </header>
 
         <section className="px-6 py-8">
+
           <div className="mb-8">
             <h2 className="text-3xl font-semibold">
               Business Overview
             </h2>
+
             <p className="mt-2 text-slate-400">
               Key performance metrics from your semantic layer.
             </p>
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+
             <MetricCard
               title="Total Revenue"
               value="$125,430"
@@ -83,9 +107,11 @@ export default function Home() {
               value="37.6%"
               change="+4.1%"
             />
+
           </div>
 
           <div className="mt-8 rounded-xl border border-slate-800 bg-slate-900 p-6">
+
             <h3 className="text-lg font-semibold">
               Ask MetricMind
             </h3>
@@ -104,10 +130,13 @@ export default function Home() {
             )}
 
             <div className="mt-5 flex gap-3">
+
               <input
                 type="text"
                 value={message}
-                onChange={(event) => setMessage(event.target.value)}
+                onChange={(event) =>
+                  setMessage(event.target.value)
+                }
                 onKeyDown={(event) => {
                   if (event.key === "Enter") {
                     handleSend();
@@ -125,8 +154,10 @@ export default function Home() {
               >
                 {loading ? "Thinking..." : "Send"}
               </button>
+
             </div>
           </div>
+
         </section>
       </div>
     </main>

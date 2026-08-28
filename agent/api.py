@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 from langchain_ollama import ChatOllama
 
@@ -58,9 +59,12 @@ User question:
 Answer clearly and concisely using the available semantic layer.
 """
 
-    response = llm.invoke(prompt)
+    def generate():
+        for chunk in llm.stream(prompt):
+            if chunk.content:
+                yield chunk.content
 
-    return {
-        "question": request.question,
-        "answer": response.content,
-    }
+    return StreamingResponse(
+        generate(),
+        media_type="text/plain",
+    )
