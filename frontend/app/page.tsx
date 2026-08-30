@@ -1,17 +1,33 @@
 "use client";
 
 import { useState } from "react";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
+
+type ChartData = {
+  name: string;
+  value: number;
+};
 
 export default function Home() {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
   const [loading, setLoading] = useState(false);
+  const [chartData, setChartData] = useState<ChartData[]>([]);
 
   async function handleAsk() {
     if (!question.trim() || loading) return;
 
     setLoading(true);
     setAnswer("Analyzing your question...");
+    setChartData([]);
 
     try {
       const response = await fetch("/api/ask", {
@@ -31,12 +47,19 @@ export default function Home() {
       }
 
       setAnswer(data.answer);
+
+      if (Array.isArray(data.chartData)) {
+        setChartData(data.chartData);
+      } else {
+        setChartData([]);
+      }
     } catch (error) {
       setAnswer(
         error instanceof Error
           ? `Error: ${error.message}`
           : "An unexpected error occurred."
       );
+      setChartData([]);
     } finally {
       setLoading(false);
     }
@@ -70,6 +93,7 @@ export default function Home() {
             <p className="text-sm text-slate-400">
               Data Warehouse
             </p>
+
             <h2 className="mt-2 text-lg font-semibold">
               Snowflake
             </h2>
@@ -79,6 +103,7 @@ export default function Home() {
             <p className="text-sm text-slate-400">
               Transformation
             </p>
+
             <h2 className="mt-2 text-lg font-semibold">
               dbt
             </h2>
@@ -88,6 +113,7 @@ export default function Home() {
             <p className="text-sm text-slate-400">
               Semantic Layer
             </p>
+
             <h2 className="mt-2 text-lg font-semibold">
               Cube
             </h2>
@@ -97,6 +123,7 @@ export default function Home() {
             <p className="text-sm text-slate-400">
               Agent
             </p>
+
             <h2 className="mt-2 text-lg font-semibold">
               MetricMind
             </h2>
@@ -178,6 +205,44 @@ export default function Home() {
           </section>
         )}
 
+        {/* Dynamic Visualization */}
+        {chartData.length > 0 && (
+          <section className="mt-6 rounded-2xl border border-slate-800 bg-slate-900 p-6">
+
+            <h2 className="text-xl font-semibold">
+              Data Visualization
+            </h2>
+
+            <p className="mt-2 text-sm text-slate-400">
+              Visualization generated from the governed Cube result.
+            </p>
+
+            <div className="mt-6 h-80 w-full">
+
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={chartData}>
+
+                  <CartesianGrid strokeDasharray="3 3" />
+
+                  <XAxis dataKey="name" />
+
+                  <YAxis />
+
+                  <Tooltip />
+
+                  <Bar
+                    dataKey="value"
+                    name="Value"
+                  />
+
+                </BarChart>
+              </ResponsiveContainer>
+
+            </div>
+
+          </section>
+        )}
+
         {/* Governed Metrics */}
         <section className="mt-8">
 
@@ -200,6 +265,7 @@ export default function Home() {
                 key={metric}
                 className="rounded-xl border border-slate-800 bg-slate-900 p-4"
               >
+
                 <p className="font-medium">
                   {metric}
                 </p>
@@ -207,6 +273,7 @@ export default function Home() {
                 <p className="mt-1 text-xs text-slate-500">
                   Governed Cube metric
                 </p>
+
               </div>
 
             ))}
@@ -217,7 +284,7 @@ export default function Home() {
 
         {/* Footer */}
         <footer className="mt-12 border-t border-slate-800 pt-6 text-center text-sm text-slate-500">
-          MetricMind • Agentic Semantic BI Engine
+          MetricMind &bull; Agentic Semantic BI Engine
         </footer>
 
       </div>
