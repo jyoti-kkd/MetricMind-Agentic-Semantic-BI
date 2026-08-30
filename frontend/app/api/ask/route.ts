@@ -1,3 +1,4 @@
+```typescript
 import { NextRequest, NextResponse } from "next/server";
 import { spawn } from "child_process";
 
@@ -8,7 +9,10 @@ export async function POST(request: NextRequest) {
 
     if (!question || typeof question !== "string") {
       return NextResponse.json(
-        { success: false, error: "Question is required." },
+        {
+          success: false,
+          error: "Question is required.",
+        },
         { status: 400 }
       );
     }
@@ -19,7 +23,7 @@ export async function POST(request: NextRequest) {
     const result = await new Promise<string>((resolve, reject) => {
       const child = spawn(
         "node",
-        [agentPath, question],
+        [agentPath, question.trim()],
         {
           env: process.env,
           shell: true,
@@ -63,6 +67,7 @@ export async function POST(request: NextRequest) {
         success: true,
         answer: "MetricMind could not find a business result.",
         data: [],
+        chartData: [],
       });
     }
 
@@ -74,8 +79,11 @@ export async function POST(request: NextRequest) {
 
     const lowerQuestion = question.toLowerCase();
 
-    let dimension: "region" | "country" | "product" | null =
-      null;
+    let dimension:
+      | "region"
+      | "country"
+      | "product"
+      | null = null;
 
     if (lowerQuestion.includes("country")) {
       dimension = "country";
@@ -90,11 +98,13 @@ export async function POST(request: NextRequest) {
     // --------------------------------------------------
 
     if (dimension) {
-      const dimensionKey =
-        `CorporateSales.${dimension}`;
+      const dimensionKey = `CorporateSales.${dimension}`;
 
       const rowPattern = new RegExp(
-        `"${dimensionKey.replace(".", "\\.")}"\\s*:\\s*"([^"]+)"[\\s\\S]*?"CorporateSales\\.totalRevenue"\\s*:\\s*"([^"]+)"`,
+        `"${dimensionKey.replace(
+          ".",
+          "\\."
+        )}"\\s*:\\s*"([^"]+)"[\\s\\S]*?"CorporateSales\\.totalRevenue"\\s*:\\s*"([^"]+)"`,
         "g"
       );
 
@@ -144,6 +154,7 @@ export async function POST(request: NextRequest) {
           answer,
           data,
           dimension,
+          chartData: data,
         });
       }
     }
@@ -152,10 +163,9 @@ export async function POST(request: NextRequest) {
     // Single metric queries
     // --------------------------------------------------
 
-    const metricMatch =
-      dataText.match(
-        /"CorporateSales\.([^"]+)":\s*"([^"]+)"/
-      );
+    const metricMatch = dataText.match(
+      /"CorporateSales\.([^"]+)":\s*"([^"]+)"/
+    );
 
     if (metricMatch) {
       const metric = metricMatch[1];
@@ -199,12 +209,17 @@ export async function POST(request: NextRequest) {
           },
         ],
         metric,
+        chartData: [
+          {
+            name: title,
+            value,
+          },
+        ],
       });
     }
 
     // --------------------------------------------------
     // Safe fallback
-    // Never return raw Agent/Cube output
     // --------------------------------------------------
 
     return NextResponse.json({
@@ -212,8 +227,8 @@ export async function POST(request: NextRequest) {
       answer:
         "MetricMind received the result, but could not format it yet.",
       data: [],
+      chartData: [],
     });
-
   } catch (error) {
     return NextResponse.json(
       {
