@@ -1,4 +1,3 @@
-```typescript
 import { NextRequest, NextResponse } from "next/server";
 import { spawn } from "child_process";
 
@@ -21,14 +20,10 @@ export async function POST(request: NextRequest) {
       "E:\\MetricMind\\MetricMind-Agentic-Semantic-BI\\agent\\index.js";
 
     const result = await new Promise<string>((resolve, reject) => {
-      const child = spawn(
-        "node",
-        [agentPath, question.trim()],
-        {
-          env: process.env,
-          shell: true,
-        }
-      );
+      const child = spawn("node", [agentPath, question], {
+        env: process.env,
+        shell: true,
+      });
 
       let output = "";
       let errorOutput = "";
@@ -41,37 +36,20 @@ export async function POST(request: NextRequest) {
         errorOutput += data.toString();
       });
 
+      child.on("error", (error) => {
+        reject(error);
+      });
+
       child.on("close", (code) => {
         if (code === 0) {
           resolve(output);
         } else {
           reject(
-            new Error(
-              errorOutput || output || "Agent failed."
-            )
+            new Error(errorOutput || output || "Agent failed.")
           );
         }
       });
     });
-
-    // --------------------------------------------------
-    // Find Cube data
-    // --------------------------------------------------
-
-    const dataMatch = result.match(
-      /"data":\s*\[(.*?)\]\s*\}/s
-    );
-
-    if (!dataMatch) {
-      return NextResponse.json({
-        success: true,
-        answer: "MetricMind could not find a business result.",
-        data: [],
-        chartData: [],
-      });
-    }
-
-    const dataText = dataMatch[1];
 
     // --------------------------------------------------
     // Detect dimension
@@ -79,11 +57,7 @@ export async function POST(request: NextRequest) {
 
     const lowerQuestion = question.toLowerCase();
 
-    let dimension:
-      | "region"
-      | "country"
-      | "product"
-      | null = null;
+    let dimension: "region" | "country" | "product" | null = null;
 
     if (lowerQuestion.includes("country")) {
       dimension = "country";
@@ -94,17 +68,105 @@ export async function POST(request: NextRequest) {
     }
 
     // --------------------------------------------------
-    // Dimension query
+    // Product profit ranking
+    // --------------------------------------------------
+
+    if (
+      dimension === "product" &&
+      lowerQuestion.includes("profit") &&
+      (
+        lowerQuestion.includes("highest") ||
+        lowerQuestion.includes("top") ||
+        lowerQuestion.includes("best")
+      )
+    ) {
+      const rowPattern =
+        /Highest Profit Product:\s*(.+)\s*\r?\nProfit:\s*([\d,.]+)/;
+
+      const match = result.match(rowPattern);
+
+      const rankingPattern =
+        /(\d+)\.\s*(.+?)\s*-\s*([\d,.]+)/g;
+
+      const rankingRows = [
+        ...result.matchAll(rankingPattern),
+      ];
+
+      const data = rankingRows.map((row) => ({
+        name: row[2].trim(),
+        value: Number(row[3].replace(/,/g, "")),
+      }));
+
+      if (match) {
+        const highestProduct = match[1].trim();
+        const highestProfit = Number(
+          match[2].replace(/,/g, "")
+        );
+
+        const answer =
+          `Highest Profit Product: ${highestProduct}\n\n` +
+          `Profit: ${highestProfit.toLocaleString("en-US", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })}\n\n` +
+          `Product Profit Ranking:\n` +
+          data
+            .map(
+              (item, index) =>
+                `${index + 1}. ${item.name} - ${item.value.toLocaleString(
+                  "en-US",
+                  {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  }
+                )}`
+            )
+            .join("\n");
+
+        return NextResponse.json({
+          success: true,
+          answer,
+          chartData: data,
+          data,
+          dimension: "product",
+          metric: "totalProfit",
+        });
+      }
+    }
+
+    // --------------------------------------------------
+    // Find Cube data
+    // --------------------------------------------------
+
+    const dataMatch = result.match(
+      /"data"\s*:\s*\[(.*?)\]\s*\}/s
+    );
+
+    if (!dataMatch) {
+      return NextResponse.json({
+        success: true,
+        answer:
+          "MetricMind could not find a business result.",
+        data: [],
+        chartData: [],
+      });
+    }
+
+    const dataText = dataMatch[1];
+
+    // --------------------------------------------------
+    // Dimension queries
     // --------------------------------------------------
 
     if (dimension) {
-      const dimensionKey = `CorporateSales.${dimension}`;
+      const dimensionKey =
+        `CorporateSales.${dimension}`;
+
+      const escapedDimensionKey =
+        dimensionKey.replace(".", "\\.");
 
       const rowPattern = new RegExp(
-        `"${dimensionKey.replace(
-          ".",
-          "\\."
-        )}"\\s*:\\s*"([^"]+)"[\\s\\S]*?"CorporateSales\\.totalRevenue"\\s*:\\s*"([^"]+)"`,
+        `"${escapedDimensionKey}"\\s*:\\s*"([^"]+)"[\\s\\S]*?"CorporateSales\\.totalRevenue"\\s*:\\s*"([^"]+)"`,
         "g"
       );
 
@@ -128,18 +190,15 @@ export async function POST(request: NextRequest) {
 
         const answer =
           `Highest Revenue ${title}: ${highest.name}\n\n` +
-          `Revenue: ${highest.value.toLocaleString(
-            "en-US",
-            {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            }
-          )}\n\n` +
+          `Revenue: ${highest.value.toLocaleString("en-US", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })}\n\n` +
           `Revenue by ${title}:\n` +
           data
             .map(
               (item, index) =>
-                `${index + 1}. ${item.name} — ${item.value.toLocaleString(
+                `${index + 1}. ${item.name} - ${item.value.toLocaleString(
                   "en-US",
                   {
                     minimumFractionDigits: 2,
@@ -152,9 +211,10 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({
           success: true,
           answer,
+          chartData: data,
           data,
           dimension,
-          chartData: data,
+          metric: "totalRevenue",
         });
       }
     }
@@ -164,7 +224,7 @@ export async function POST(request: NextRequest) {
     // --------------------------------------------------
 
     const metricMatch = dataText.match(
-      /"CorporateSales\.([^"]+)":\s*"([^"]+)"/
+      /"CorporateSales\.([^"]+)"\s*:\s*"([^"]+)"/
     );
 
     if (metricMatch) {
@@ -202,6 +262,12 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({
         success: true,
         answer,
+        chartData: [
+          {
+            name: title,
+            value,
+          },
+        ],
         data: [
           {
             name: title,
@@ -209,12 +275,6 @@ export async function POST(request: NextRequest) {
           },
         ],
         metric,
-        chartData: [
-          {
-            name: title,
-            value,
-          },
-        ],
       });
     }
 

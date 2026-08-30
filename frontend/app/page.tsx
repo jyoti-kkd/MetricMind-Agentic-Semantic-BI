@@ -4,23 +4,23 @@ import { useState } from "react";
 import {
   BarChart,
   Bar,
+  CartesianGrid,
   XAxis,
   YAxis,
-  CartesianGrid,
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
 
-type ChartData = {
+interface ChartData {
   name: string;
   value: number;
-};
+}
 
 export default function Home() {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
-  const [loading, setLoading] = useState(false);
   const [chartData, setChartData] = useState<ChartData[]>([]);
+  const [loading, setLoading] = useState(false);
 
   async function handleAsk() {
     if (!question.trim() || loading) return;
@@ -46,12 +46,36 @@ export default function Home() {
         throw new Error(data.error || "Request failed.");
       }
 
-      setAnswer(data.answer);
+      setAnswer(data.answer || "No answer returned.");
 
-      if (Array.isArray(data.chartData)) {
-        setChartData(data.chartData);
-      } else {
-        setChartData([]);
+      /*
+       * The API returns the visualization data as `data`.
+       * Convert it safely into the format expected by Recharts.
+       */
+      if (Array.isArray(data.data)) {
+        const formattedData = data.data
+          .map((item: any) => ({
+            name: String(item.name ?? ""),
+            value: Number(item.value ?? 0),
+          }))
+          .filter(
+            (item: ChartData) =>
+              item.name.length > 0 && Number.isFinite(item.value)
+          );
+
+        setChartData(formattedData);
+      } else if (Array.isArray(data.chartData)) {
+        const formattedData = data.chartData
+          .map((item: any) => ({
+            name: String(item.name ?? ""),
+            value: Number(item.value ?? 0),
+          }))
+          .filter(
+            (item: ChartData) =>
+              item.name.length > 0 && Number.isFinite(item.value)
+          );
+
+        setChartData(formattedData);
       }
     } catch (error) {
       setAnswer(
@@ -59,10 +83,18 @@ export default function Home() {
           ? `Error: ${error.message}`
           : "An unexpected error occurred."
       );
+
       setChartData([]);
     } finally {
       setLoading(false);
     }
+  }
+
+  function formatNumber(value: number) {
+    return value.toLocaleString("en-US", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
   }
 
   return (
@@ -79,7 +111,7 @@ export default function Home() {
             Agentic Semantic BI Engine
           </p>
 
-          <p className="mt-4 max-w-3xl text-sm text-slate-500">
+          <p className="mt-4 max-w-3xl text-sm leading-6 text-slate-500">
             Ask business questions in natural language and receive
             governed analytical insights using Cube semantic metrics
             and Snowflake data.
@@ -131,7 +163,7 @@ export default function Home() {
 
         </section>
 
-        {/* Chat */}
+        {/* Ask MetricMind */}
         <section className="rounded-2xl border border-slate-800 bg-slate-900 p-6">
 
           <h2 className="text-xl font-semibold">
@@ -161,7 +193,7 @@ export default function Home() {
             <button
               onClick={handleAsk}
               disabled={loading || !question.trim()}
-              className="rounded-xl bg-blue-600 px-6 py-3 font-semibold hover:bg-blue-500 disabled:cursor-not-allowed disabled:opacity-50"
+              className="rounded-xl bg-blue-600 px-6 py-3 font-semibold transition hover:bg-blue-500 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {loading ? "Analyzing..." : "Ask MetricMind"}
             </button>
@@ -205,7 +237,7 @@ export default function Home() {
           </section>
         )}
 
-        {/* Dynamic Visualization */}
+        {/* Data Visualization */}
         {chartData.length > 0 && (
           <section className="mt-6 rounded-2xl border border-slate-800 bg-slate-900 p-6">
 
@@ -217,22 +249,79 @@ export default function Home() {
               Visualization generated from the governed Cube result.
             </p>
 
-            <div className="mt-6 h-80 w-full">
+            <div className="mt-6 h-96 w-full">
 
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={chartData}>
+              <ResponsiveContainer
+                width="100%"
+                height="100%"
+              >
+                <BarChart
+                  data={chartData}
+                  margin={{
+                    top: 20,
+                    right: 30,
+                    left: 30,
+                    bottom: 20,
+                  }}
+                >
 
-                  <CartesianGrid strokeDasharray="3 3" />
+                  <CartesianGrid
+                    strokeDasharray="3 3"
+                    stroke="#334155"
+                  />
 
-                  <XAxis dataKey="name" />
+                  <XAxis
+                    dataKey="name"
+                    tick={{
+                      fill: "#cbd5e1",
+                      fontSize: 14,
+                    }}
+                    axisLine={{
+                      stroke: "#475569",
+                    }}
+                    tickLine={{
+                      stroke: "#475569",
+                    }}
+                  />
 
-                  <YAxis />
+                  <YAxis
+                    tick={{
+                      fill: "#cbd5e1",
+                      fontSize: 12,
+                    }}
+                    axisLine={{
+                      stroke: "#475569",
+                    }}
+                    tickLine={{
+                      stroke: "#475569",
+                    }}
+                    tickFormatter={(value) =>
+                      Number(value).toLocaleString("en-US")
+                    }
+                  />
 
-                  <Tooltip />
+                  <Tooltip
+                    formatter={(value) => [
+                      formatNumber(Number(value)),
+                      "Revenue",
+                    ]}
+                    contentStyle={{
+                      backgroundColor: "#0f172a",
+                      border: "1px solid #334155",
+                      borderRadius: "10px",
+                      color: "#ffffff",
+                    }}
+                    labelStyle={{
+                      color: "#ffffff",
+                      fontWeight: 600,
+                    }}
+                  />
 
                   <Bar
                     dataKey="value"
-                    name="Value"
+                    name="Revenue"
+                    fill="#3b82f6"
+                    radius={[8, 8, 0, 0]}
                   />
 
                 </BarChart>
@@ -263,7 +352,7 @@ export default function Home() {
 
               <div
                 key={metric}
-                className="rounded-xl border border-slate-800 bg-slate-900 p-4"
+                className="rounded-xl border border-slate-800 bg-slate-900 p-4 transition hover:border-blue-500"
               >
 
                 <p className="font-medium">
