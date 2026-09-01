@@ -1,38 +1,23 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
-from langchain_ollama import ChatOllama
+
+from agent.reasoning import analyze_question
+
 
 app = FastAPI(title="MetricMind Agent API")
 
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=[
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-llm = ChatOllama(
-    model="llama3",
-    temperature=0,
-)
-
-cube_schema = """
-Cube.dev semantic layer: orders
-
-Measures:
-- orders.count
-- orders.total_revenue
-- orders.total_cost
-- orders.total_profit
-- orders.profit_margin
-
-Dimensions:
-- orders.region
-- orders.order_date
-"""
 
 
 class ChatRequest(BaseModel):
@@ -41,30 +26,17 @@ class ChatRequest(BaseModel):
 
 @app.get("/")
 def root():
-    return {"message": "MetricMind Agent API is running"}
+    return {
+        "message": "MetricMind Agent API is running"
+    }
 
 
 @app.post("/chat")
 def chat(request: ChatRequest):
-    prompt = f"""
-You are the MetricMind BI assistant.
 
-Use only the following Cube.dev semantic layer schema:
+    answer = analyze_question(request.question)
 
-{cube_schema}
-
-User question:
-{request.question}
-
-Answer clearly and concisely using the available semantic layer.
-"""
-
-    def generate():
-        for chunk in llm.stream(prompt):
-            if chunk.content:
-                yield chunk.content
-
-    return StreamingResponse(
-        generate(),
-        media_type="text/plain",
-    )
+    return {
+        "question": request.question,
+        "answer": answer,
+    }
